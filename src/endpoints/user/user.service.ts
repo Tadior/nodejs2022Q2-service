@@ -1,20 +1,21 @@
 import { HttpException, HttpStatus, Injectable, Param } from '@nestjs/common';
-import { User } from 'src/types/apiTypes';
+import { User, UserResponse } from 'src/types/apiTypes';
 import { CreateUserDto } from './dto/createUser.dto';
 import { v4 as uuidv4 } from 'uuid';
 import { UpdatePasswordDto } from './dto/updatePassword.dto';
 import { IdDto } from 'src/dto/id.dto';
-import { checkUuid } from 'src/helpers/checkUuid';
+import { makeUserResponse } from './helpers/makeUserResponse';
 
 @Injectable()
 export class UserService {
   private readonly users: User[] = [];
-  getAllUsers(): User[] {
-    return this.users;
+
+  getAllUsers(): UserResponse[] {
+    return this.users.map((user) => {
+      return makeUserResponse(user);
+    });
   }
-  getUserById(@Param() idDto: IdDto): User {
-    checkUuid(idDto as unknown as string);
-    // console.log(uuidValidate(idDto as unknown as string));
+  getUserById(@Param() idDto: IdDto): UserResponse {
     const user = this.users.find((user) => {
       if (user.id === (idDto as unknown as string)) {
         return user;
@@ -26,9 +27,9 @@ export class UserService {
         HttpStatus.NOT_FOUND,
       );
     }
-    return user;
+    return makeUserResponse(user);
   }
-  create(body: CreateUserDto): User {
+  create(body: CreateUserDto): UserResponse {
     const user: User = {
       id: uuidv4(),
       login: body.login,
@@ -38,11 +39,10 @@ export class UserService {
       updatedAt: Date.now(),
     };
     this.users.push(user);
-    return user;
+    return makeUserResponse(user);
   }
-  updatePassword(@Param() idDto: IdDto, body: UpdatePasswordDto): User {
+  updatePassword(@Param() idDto: IdDto, body: UpdatePasswordDto): UserResponse {
     const userId = idDto as unknown as string;
-    checkUuid(userId);
     const user = this.users.find((user) => {
       if (user.id === userId) {
         return user;
@@ -59,18 +59,15 @@ export class UserService {
     }
     user.password = body.newPassword;
     user.updatedAt = Date.now();
-    return user;
+    return makeUserResponse(user);
   }
   deleteUser(@Param() idDto: IdDto) {
     const userId = idDto as undefined as string;
-    checkUuid(userId);
-    console.log(userId);
     const userIndex = this.users.findIndex((user) => {
       if (user.id === userId) {
         return true;
       }
     });
-    console.log(userIndex);
     if (userIndex === -1) {
       throw new HttpException(
         'User with such id is not found',
