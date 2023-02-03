@@ -16,8 +16,9 @@ export class UserService {
     });
   }
   getUserById(@Param() idDto: IdDto): UserResponse {
+    const userId = idDto as unknown as string;
     const user = this.users.find((user) => {
-      if (user.id === (idDto as unknown as string)) {
+      if (user.id === userId) {
         return user;
       }
     });
@@ -75,6 +76,5 @@ export class UserService {
       );
     }
     this.users.splice(userIndex, 1);
-    return 'User was deleted';
   }
 }
