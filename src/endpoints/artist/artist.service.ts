@@ -1,13 +1,20 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 import { Param } from '@nestjs/common';
 import { IdDto } from 'src/dto/id.dto';
 import { Artist } from 'src/types/apiTypes';
 import { ArtistDto } from './dto/artist.dto';
+import { DataBaseService } from 'src/database/database.service';
 
 @Injectable()
 export class ArtistService {
-  private readonly artists: Artist[] = [];
+  constructor(
+    @Inject(DataBaseService) private DataBaseService: DataBaseService,
+  ) {
+    this.DataBaseService = DataBaseService;
+  }
+  private readonly artists = this.DataBaseService.database.artists;
+  // private readonly artists: Artist[] = [];
   getAll(): Artist[] {
     return this.artists;
   }

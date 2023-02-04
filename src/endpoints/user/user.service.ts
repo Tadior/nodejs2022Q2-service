@@ -1,14 +1,27 @@
-import { HttpException, HttpStatus, Injectable, Param } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+  Param,
+} from '@nestjs/common';
 import { User, UserResponse } from 'src/types/apiTypes';
 import { CreateUserDto } from './dto/createUser.dto';
 import { v4 as uuidv4 } from 'uuid';
 import { UpdatePasswordDto } from './dto/updatePassword.dto';
 import { IdDto } from 'src/dto/id.dto';
 import { makeUserResponse } from './helpers/makeUserResponse';
+import { DataBaseService } from 'src/database/database.service';
 
 @Injectable()
 export class UserService {
-  private readonly users: User[] = [];
+  constructor(
+    @Inject(DataBaseService) private DataBaseService: DataBaseService, // private tracks: Track[],
+  ) {
+    this.DataBaseService = DataBaseService;
+  }
+  private readonly users = this.DataBaseService.database.users;
+  // private readonly users: User[] = [];
 
   getAllUsers(): UserResponse[] {
     return this.users.map((user) => {

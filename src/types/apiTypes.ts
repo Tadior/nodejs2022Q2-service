@@ -36,3 +36,8 @@ export interface Favorites {
   albums: string[]; // favorite albums ids
   tracks: string[]; // favorite tracks ids
 }
+export interface FavoritesRepsonse {
+  artists: Artist[];
+  albums: Album[];
+  tracks: Track[];
+}

@@ -1,13 +1,19 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 import { Param } from '@nestjs/common';
 import { IdDto } from 'src/dto/id.dto';
 import { Track } from 'src/types/apiTypes';
 import { TrackDto } from './dto/track.dto';
+import { DataBaseService } from 'src/database/database.service';
 
 @Injectable()
 export class TrackService {
-  private readonly tracks: Track[] = [];
+  constructor(
+    @Inject(DataBaseService) private DataBaseService: DataBaseService, // private tracks: Track[],
+  ) {
+    this.DataBaseService = DataBaseService;
+  }
+  private readonly tracks = this.DataBaseService.database.tracks;
   getAll(): Track[] {
     return this.tracks;
   }
@@ -20,7 +26,7 @@ export class TrackService {
     });
     if (!track) {
       throw new HttpException(
-        "User with such id isn't found",
+        "Track with such id isn't found",
         HttpStatus.NOT_FOUND,
       );
     }
