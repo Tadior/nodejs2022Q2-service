@@ -30,8 +30,8 @@ export class TrackService {
     const track = {
       id: uuidv4(),
       name: body.name,
-      artistId: body.artistId,
-      albumId: body.albumId,
+      artistId: body.artistId ? body.artistId : null,
+      albumId: body.albumId ? body.albumId : null,
       duration: body.duration,
     };
     this.tracks.push(track);
@@ -44,7 +44,6 @@ export class TrackService {
         return track;
       }
     });
-    console.log(track);
     if (!track) {
       throw new HttpException(
         'Track with such id is not found',

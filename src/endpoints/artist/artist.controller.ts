@@ -9,13 +9,13 @@ import {
   ParseUUIDPipe,
   HttpCode,
 } from '@nestjs/common';
-import { TrackService } from './track.service';
+import { ArtistService } from './artist.service';
 import { IdDto } from 'src/dto/id.dto';
-import { TrackDto } from './dto/track.dto';
+import { ArtistDto } from './dto/artist.dto';
 
-@Controller('track')
-export class TrackController {
-  constructor(private readonly service: TrackService) {}
+@Controller('artist')
+export class ArtistController {
+  constructor(private readonly service: ArtistService) {}
   @Get()
   getAllTracks() {
     return this.service.getAll();
@@ -25,11 +25,11 @@ export class TrackController {
     return this.service.getById(id);
   }
   @Post()
-  createTrack(@Body() body: TrackDto) {
+  createTrack(@Body() body: ArtistDto) {
     return this.service.create(body);
   }
   @Put(':id')
-  updateTrack(@Param('id', ParseUUIDPipe) id: IdDto, @Body() body: TrackDto) {
+  updateTrack(@Param('id', ParseUUIDPipe) id: IdDto, @Body() body: ArtistDto) {
     return this.service.update(id, body);
   }
   @Delete(':id')

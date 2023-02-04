@@ -1,20 +1,18 @@
 import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
-interface ITrackDto {
+interface IAlbumDto {
   name: string;
+  year: number;
   artistId: string | null;
-  albumId: string | null;
-  duration: number;
 }
 
-export class TrackDto implements ITrackDto {
+export class AlbumDto implements IAlbumDto {
   @IsNotEmpty()
   @IsString()
   name: string;
+  @IsNotEmpty()
+  @IsNumber()
+  year: number;
   @IsOptional()
   artistId: string | null;
-  @IsOptional()
-  albumId: string | null;
-  @IsNumber()
-  duration: number;
 }
