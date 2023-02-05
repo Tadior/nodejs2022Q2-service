@@ -1,4 +1,4 @@
-import { IsString, MinLength } from 'class-validator';
+import { IsString } from 'class-validator';
 
 interface IUpdatePasswordDto {
   oldPassword: string;
@@ -7,9 +7,7 @@ interface IUpdatePasswordDto {
 
 export class UpdatePasswordDto implements IUpdatePasswordDto {
   @IsString()
-  @MinLength(5)
   oldPassword: string;
   @IsString()
-  @MinLength(5)
   newPassword: string;
 }

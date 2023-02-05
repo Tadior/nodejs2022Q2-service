@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  IsUUID,
+} from 'class-validator';
 
 interface IAlbumDto {
   name: string;
@@ -14,5 +20,6 @@ export class AlbumDto implements IAlbumDto {
   @IsNumber()
   year: number;
   @IsOptional()
+  @IsUUID()
   artistId: string | null;
 }

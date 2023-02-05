@@ -5,6 +5,7 @@ import { IdDto } from 'src/dto/id.dto';
 import { Album } from 'src/types/apiTypes';
 import { AlbumDto } from './dto/album.dto';
 import { DataBaseService } from 'src/database/database.service';
+import { isArtistExist } from 'src/helpers/isArtistExist';
 
 @Injectable()
 export class AlbumService {
@@ -14,7 +15,6 @@ export class AlbumService {
     this.DataBaseService = DataBaseService;
   }
   private readonly albums = this.DataBaseService.database.albums;
-  // private readonly albums: Album[] = [];
   getAll(): Album[] {
     return this.albums;
   }
@@ -34,6 +34,9 @@ export class AlbumService {
     return album;
   }
   create(body: AlbumDto): Album {
+    if (body.artistId) {
+      isArtistExist(this.DataBaseService.database, body.artistId);
+    }
     const album = {
       id: uuidv4(),
       name: body.name,
@@ -44,6 +47,9 @@ export class AlbumService {
     return album;
   }
   update(@Param() idDto: IdDto, body: AlbumDto): Album {
+    if (body.artistId) {
+      isArtistExist(this.DataBaseService.database, body.artistId);
+    }
     const albumId = idDto as unknown as string;
     const album = this.albums.find((album) => {
       if (album.id === albumId) {
@@ -74,6 +80,11 @@ export class AlbumService {
         HttpStatus.NOT_FOUND,
       );
     }
+    this.DataBaseService.database.tracks.filter((track) => {
+      if (track.albumId === albumId) {
+        track.albumId = null;
+      }
+    });
     this.albums.splice(albumIndex, 1);
   }
 }

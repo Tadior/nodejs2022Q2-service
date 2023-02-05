@@ -2,16 +2,13 @@ import {
   Controller,
   Get,
   Post,
-  Body,
   Param,
-  Put,
   Delete,
   ParseUUIDPipe,
   HttpCode,
 } from '@nestjs/common';
 import { FavoriteService } from './favorite.service';
 import { IdDto } from 'src/dto/id.dto';
-import { FavoriteDto } from './dto/favorite.dto';
 
 @Controller('favs')
 export class FavoriteController {
@@ -25,6 +22,7 @@ export class FavoriteController {
     return this.service.add(id, 'tracks');
   }
   @Delete('track/:id')
+  @HttpCode(204)
   deleteTrack(@Param('id', ParseUUIDPipe) id: IdDto) {
     return this.service.delete(id, 'tracks');
   }
@@ -34,6 +32,7 @@ export class FavoriteController {
     return this.service.add(id, 'albums');
   }
   @Delete('album/:id')
+  @HttpCode(204)
   deleteAlbum(@Param('id', ParseUUIDPipe) id: IdDto) {
     return this.service.delete(id, 'albums');
   }
@@ -43,6 +42,7 @@ export class FavoriteController {
     return this.service.add(id, 'artists');
   }
   @Delete('artist/:id')
+  @HttpCode(204)
   deleteArtist(@Param('id', ParseUUIDPipe) id: IdDto) {
     return this.service.delete(id, 'artists');
   }

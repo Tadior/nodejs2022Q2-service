@@ -14,7 +14,6 @@ export class ArtistService {
     this.DataBaseService = DataBaseService;
   }
   private readonly artists = this.DataBaseService.database.artists;
-  // private readonly artists: Artist[] = [];
   getAll(): Artist[] {
     return this.artists;
   }
@@ -72,6 +71,16 @@ export class ArtistService {
         HttpStatus.NOT_FOUND,
       );
     }
+    this.DataBaseService.database.albums.filter((album) => {
+      if (album.artistId === artistId) {
+        album.artistId = null;
+      }
+    });
+    this.DataBaseService.database.tracks.filter((track) => {
+      if (track.artistId === artistId) {
+        track.artistId = null;
+      }
+    });
     this.artists.splice(artistIndex, 1);
   }
 }

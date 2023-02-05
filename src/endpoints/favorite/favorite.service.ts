@@ -1,15 +1,7 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
-import { v4 as uuidv4 } from 'uuid';
 import { Param } from '@nestjs/common';
 import { IdDto } from 'src/dto/id.dto';
-import {
-  Album,
-  Artist,
-  Favorites,
-  FavoritesRepsonse,
-  Track,
-} from 'src/types/apiTypes';
-import { FavoriteDto } from './dto/favorite.dto';
+import { Favorites, FavoritesRepsonse } from 'src/types/apiTypes';
 import { ErrorResponse } from 'src/types/errorResponse';
 import { TrackService } from '../track/track.service';
 import { DataBaseService } from 'src/database/database.service';
@@ -68,7 +60,6 @@ export class FavoriteService {
       return `${field.slice(0, -1)} was added to favorites`;
     } catch (e) {
       const error = e as ErrorResponse;
-      console.log(error);
       if (error.status === 404) {
         throw new HttpException(
           `${field.slice(0, -1)} with such id is not found`,
@@ -89,7 +80,7 @@ export class FavoriteService {
         HttpStatus.NOT_FOUND,
       );
     }
-    this.favorites.tracks.splice(trackIndex, 1);
+    this.favorites[field].splice(trackIndex, 1);
     return `${field.slice(0, -1)} was deleted from favorites`;
   }
 }

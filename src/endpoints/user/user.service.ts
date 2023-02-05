@@ -21,7 +21,6 @@ export class UserService {
     this.DataBaseService = DataBaseService;
   }
   private readonly users = this.DataBaseService.database.users;
-  // private readonly users: User[] = [];
 
   getAllUsers(): UserResponse[] {
     return this.users.map((user) => {
@@ -48,7 +47,7 @@ export class UserService {
       id: uuidv4(),
       login: body.login,
       password: body.password,
-      version: 0,
+      version: 1,
       createdAt: Date.now(),
       updatedAt: Date.now(),
     };
@@ -73,6 +72,7 @@ export class UserService {
     }
     user.password = body.newPassword;
     user.updatedAt = Date.now();
+    user.version++;
     return makeUserResponse(user);
   }
   deleteUser(@Param() idDto: IdDto) {

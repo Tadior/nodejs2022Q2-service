@@ -1,5 +1,3 @@
-import { Album, Artist, Track } from 'src/types/apiTypes';
-
 export const filterFavourite = (searchArr, databaseArr) => {
   const response = [];
   searchArr.map((searchId) => {

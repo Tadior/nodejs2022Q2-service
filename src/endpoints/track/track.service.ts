@@ -5,6 +5,8 @@ import { IdDto } from 'src/dto/id.dto';
 import { Track } from 'src/types/apiTypes';
 import { TrackDto } from './dto/track.dto';
 import { DataBaseService } from 'src/database/database.service';
+import { isAlbumExist } from 'src/helpers/isAlbumExist';
+import { isArtistExist } from 'src/helpers/isArtistExist';
 
 @Injectable()
 export class TrackService {
@@ -33,6 +35,12 @@ export class TrackService {
     return track;
   }
   create(body: TrackDto): Track {
+    if (body.albumId) {
+      isAlbumExist(this.DataBaseService.database, body.albumId);
+    }
+    if (body.artistId) {
+      isArtistExist(this.DataBaseService.database, body.artistId);
+    }
     const track = {
       id: uuidv4(),
       name: body.name,
@@ -44,6 +52,12 @@ export class TrackService {
     return track;
   }
   update(@Param() idDto: IdDto, body: TrackDto): Track {
+    if (body.albumId) {
+      isAlbumExist(this.DataBaseService.database, body.albumId);
+    }
+    if (body.artistId) {
+      isArtistExist(this.DataBaseService.database, body.artistId);
+    }
     const trackId = idDto as unknown as string;
     const track = this.tracks.find((track) => {
       if (track.id === trackId) {
