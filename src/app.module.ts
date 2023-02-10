@@ -5,6 +5,8 @@ import { ArtistModule } from './endpoints/artist/artist.module';
 import { AlbumModule } from './endpoints/album/album.module';
 import { FavoriteModule } from './endpoints/favorite/favorite.module';
 import { DatabaseModule } from './database/database.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import configService from '../orm.config';
 
 @Module({
   imports: [
@@ -14,6 +16,7 @@ import { DatabaseModule } from './database/database.module';
     ArtistModule,
     AlbumModule,
     FavoriteModule,
+    TypeOrmModule.forRoot(configService),
   ],
 })
 export class AppModule {}

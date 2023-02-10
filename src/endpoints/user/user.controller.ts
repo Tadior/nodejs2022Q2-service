@@ -21,24 +21,24 @@ export class UserController {
   getAllUsers() {
     return this.service.getAllUsers();
   }
-  @Get(':id')
-  getUserById(@Param('id', ParseUUIDPipe) id: IdDto) {
-    return this.service.getUserById(id);
-  }
-  @Post()
-  createUser(@Body() body: CreateUserDto) {
-    return this.service.create(body);
-  }
-  @Put(':id')
-  updatePassword(
-    @Param('id', ParseUUIDPipe) id: IdDto,
-    @Body() body: UpdatePasswordDto,
-  ) {
-    return this.service.updatePassword(id, body);
-  }
-  @Delete(':id')
-  @HttpCode(204)
-  deleteUser(@Param('id', ParseUUIDPipe) id: IdDto) {
-    return this.service.deleteUser(id);
-  }
+  // @Get(':id')
+  // getUserById(@Param('id', ParseUUIDPipe) id: IdDto) {
+  //   return this.service.getUserById(id);
+  // }
+  // @Post()
+  // createUser(@Body() body: CreateUserDto) {
+  //   return this.service.create(body);
+  // }
+  // @Put(':id')
+  // updatePassword(
+  //   @Param('id', ParseUUIDPipe) id: IdDto,
+  //   @Body() body: UpdatePasswordDto,
+  // ) {
+  //   return this.service.updatePassword(id, body);
+  // }
+  // @Delete(':id')
+  // @HttpCode(204)
+  // deleteUser(@Param('id', ParseUUIDPipe) id: IdDto) {
+  //   return this.service.deleteUser(id);
+  // }
 }
