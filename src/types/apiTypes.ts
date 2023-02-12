@@ -1,10 +1,10 @@
 export interface User {
-  id: string; // uuid v4
+  id?: string; // uuid v4
   login: string;
-  password: string;
+  password?: string;
   version: number; // integer number, increments on update
-  createdAt: number; // timestamp of creation
-  updatedAt: number; // timestamp of last update
+  createdAt?: number; // timestamp of creation
+  updatedAt?: number; // timestamp of last update
 }
 export interface UserResponse {
   id: string; // uuid v4

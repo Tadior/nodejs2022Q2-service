@@ -1,11 +1,12 @@
-import { User, UserResponse } from 'src/types/apiTypes';
+import { UserResponse } from 'src/types/apiTypes';
+import { UserEntity } from '../entity/user.entity';
 
-export const makeUserResponse = (user: User): UserResponse => {
+export const makeUserResponse = (user: UserEntity): UserResponse => {
   return {
     id: user.id,
     login: user.login,
     version: user.version,
-    createdAt: user.createdAt,
-    updatedAt: user.updatedAt,
+    createdAt: new Date(user.createdAt).getTime(),
+    updatedAt: new Date(user.updatedAt).getTime(),
   };
 };

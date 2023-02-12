@@ -1,14 +1,23 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
-interface ICreateUserDto {
-  login: string;
-  password: string;
-}
-
-@Entity('user')
-export class UserEntity implements ICreateUserDto {
-  @PrimaryColumn()
+@Entity()
+export class UserEntity {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+  @Column()
   login: string;
   @Column()
   password: string;
+  @Column()
+  version: number;
+  @CreateDateColumn()
+  createdAt: number;
+  @UpdateDateColumn()
+  updatedAt: number;
 }
