@@ -1,20 +1,20 @@
-import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
-import { v4 as uuidv4 } from 'uuid';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Param } from '@nestjs/common';
 import { IdDto } from 'src/dto/id.dto';
-import { Album } from 'src/types/apiTypes';
 import { AlbumDto } from './dto/album.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AlbumEntity } from './entity/album.entity';
 import { Repository } from 'typeorm';
-// import { DataBaseService } from 'src/database/database.service';
 import { isArtistExist } from 'src/helpers/isArtistExist';
+import { ArtistEntity } from '../artist/entity/artist.entity';
 
 @Injectable()
 export class AlbumService {
   constructor(
     @InjectRepository(AlbumEntity)
     private albumsRepository: Repository<AlbumEntity>,
+    @InjectRepository(ArtistEntity)
+    private artistsRepository: Repository<ArtistEntity>,
   ) {}
 
   async getAll(): Promise<AlbumEntity[]> {
@@ -36,9 +36,10 @@ export class AlbumService {
   }
 
   async create(body: AlbumDto): Promise<AlbumEntity> {
-    // if (body.artistId) {
-    //   await isArtistExist(this.albumsRepository, body.artistId);
-    // }
+    if (body.artistId) {
+      await isArtistExist(this.artistsRepository, body.artistId);
+    }
+
     const album = {
       name: body.name,
       year: body.year,
@@ -49,9 +50,9 @@ export class AlbumService {
   }
 
   async update(@Param() idDto: IdDto, body: AlbumDto): Promise<AlbumEntity> {
-    // if (body.artistId) {
-    //   isArtistExist(this.DataBaseService.database, body.artistId);
-    // }
+    if (body.artistId) {
+      await isArtistExist(this.artistsRepository, body.artistId);
+    }
 
     const albumId = idDto as unknown as string;
     const album = await this.albumsRepository.findOneBy({ id: albumId });

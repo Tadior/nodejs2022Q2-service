@@ -1,4 +1,3 @@
-import { IsOptional } from 'class-validator';
 import { AlbumEntity } from 'src/endpoints/album/entity/album.entity';
 import { ArtistEntity } from 'src/endpoints/artist/entity/artist.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';

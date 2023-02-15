@@ -1,13 +1,10 @@
-import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
-import { v4 as uuidv4 } from 'uuid';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Param } from '@nestjs/common';
 import { IdDto } from 'src/dto/id.dto';
-import { Artist } from 'src/types/apiTypes';
 import { ArtistDto } from './dto/artist.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ArtistEntity } from './entity/artist.entity';
-// import { DataBaseService } from 'src/database/database.service';
 
 @Injectable()
 export class ArtistService {

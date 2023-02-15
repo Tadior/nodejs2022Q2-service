@@ -1,26 +1,30 @@
-import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
-import { v4 as uuidv4 } from 'uuid';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Param } from '@nestjs/common';
 import { IdDto } from 'src/dto/id.dto';
-import { Track } from 'src/types/apiTypes';
 import { TrackDto } from './dto/track.dto';
 import { TrackEntity } from './entity/track.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-// import { DataBaseService } from 'src/database/database.service';
-// import { isAlbumExist } from 'src/helpers/isAlbumExist';
-// import { isArtistExist } from 'src/helpers/isArtistExist';
+import { AlbumEntity } from '../album/entity/album.entity';
+import { isAlbumExist } from 'src/helpers/isAlbumExist';
+import { isArtistExist } from 'src/helpers/isArtistExist';
+import { ArtistEntity } from '../artist/entity/artist.entity';
 
 @Injectable()
 export class TrackService {
   constructor(
     @InjectRepository(TrackEntity)
     private tracksRepository: Repository<TrackEntity>,
+    @InjectRepository(AlbumEntity)
+    private albumsRepository: Repository<AlbumEntity>,
+    @InjectRepository(ArtistEntity)
+    private artistRepository: Repository<ArtistEntity>,
   ) {}
-  //   private readonly tracks = this.DataBaseService.database.tracks;
+
   async getAll(): Promise<TrackEntity[]> {
     return await this.tracksRepository.find();
   }
+
   async getById(@Param() idDto: IdDto): Promise<TrackEntity> {
     const trackId = idDto as unknown as string;
     const track = await this.tracksRepository.findOneBy({ id: trackId });
@@ -35,29 +39,13 @@ export class TrackService {
     return track;
   }
   async create(body: TrackDto): Promise<TrackEntity> {
-    // if (body.albumId) {
-    //   const isAlbumExist = await this.albumRepository.findOneBy({
-    //     id: body.albumId,
-    //   });
-    //   if (!isAlbumExist) {
-    //     throw new HttpException(
-    //       'Album with such id is not foud',
-    //       HttpStatus.NOT_FOUND,
-    //     );
-    //   }
-    // }
+    if (body.albumId) {
+      await isAlbumExist(this.albumsRepository, body.albumId);
+    }
 
-    // if (body.artistId) {
-    //   const isArtistExist = await this.artistsRepository.findOneBy({
-    //     id: body.albumId,
-    //   });
-    //   if (!isArtistExist) {
-    //     throw new HttpException(
-    //       'Album with such id is not foud',
-    //       HttpStatus.NOT_FOUND,
-    //     );
-    //   }
-    // }
+    if (body.artistId) {
+      await isArtistExist(this.artistRepository, body.artistId);
+    }
 
     const track = {
       name: body.name,
@@ -69,12 +57,13 @@ export class TrackService {
   }
 
   async update(@Param() idDto: IdDto, body: TrackDto): Promise<TrackEntity> {
-    // if (body.albumId) {
-    //   isAlbumExist(this.DataBaseService.database, body.albumId);
-    // }
-    // if (body.artistId) {
-    //   isArtistExist(this.DataBaseService.database, body.artistId);
-    // }
+    if (body.albumId) {
+      await isAlbumExist(this.albumsRepository, body.albumId);
+    }
+
+    if (body.artistId) {
+      await isArtistExist(this.artistRepository, body.artistId);
+    }
     const trackId = idDto as unknown as string;
     const track = await this.tracksRepository.findOneBy({ id: trackId });
     if (!track) {
