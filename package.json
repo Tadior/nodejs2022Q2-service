@@ -9,6 +9,8 @@
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "scan:database": "docker scan nodejs2022q4-service_database",
+    "scan:server": "docker scan nodejs2022q4-service_server",
     "docker": "docker compose up --build",
     "start": "nest start",
     "start:dev": "nest start --watch",
