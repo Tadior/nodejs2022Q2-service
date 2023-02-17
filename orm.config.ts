@@ -13,4 +13,6 @@ export default {
   autoLoadEntities: true,
   synchronize: true,
   logging: false,
+  migrations: [],
+  migrationsTableName: 'migrations',
 } as DataSourceOptions;
