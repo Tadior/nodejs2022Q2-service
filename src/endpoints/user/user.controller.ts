@@ -1,18 +1,19 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Param,
-  Put,
+  Controller,
   Delete,
-  ParseUUIDPipe,
+  Get,
   HttpCode,
+  Param,
+  ParseUUIDPipe,
+  Post,
+  Put,
 } from '@nestjs/common';
-import { UserService } from './user.service';
+import { IdDto } from 'src/dto/id.dto';
+import { WhitelistPipe } from 'src/validation/whitelist.validation';
 import { CreateUserDto } from './dto/createUser.dto';
 import { UpdatePasswordDto } from './dto/updatePassword.dto';
-import { IdDto } from 'src/dto/id.dto';
+import { UserService } from './user.service';
 
 @Controller('user')
 export class UserController {
@@ -26,13 +27,16 @@ export class UserController {
     return this.service.getUserById(id);
   }
   @Post()
-  createUser(@Body() body: CreateUserDto) {
+  createUser(
+    @Body(WhitelistPipe)
+    body: CreateUserDto,
+  ) {
     return this.service.create(body);
   }
   @Put(':id')
   updatePassword(
     @Param('id', ParseUUIDPipe) id: IdDto,
-    @Body() body: UpdatePasswordDto,
+    @Body(WhitelistPipe) body: UpdatePasswordDto,
   ) {
     return this.service.updatePassword(id, body);
   }

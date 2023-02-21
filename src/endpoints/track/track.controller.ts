@@ -1,17 +1,18 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Param,
-  Put,
+  Controller,
   Delete,
-  ParseUUIDPipe,
+  Get,
   HttpCode,
+  Param,
+  ParseUUIDPipe,
+  Post,
+  Put,
 } from '@nestjs/common';
-import { TrackService } from './track.service';
 import { IdDto } from 'src/dto/id.dto';
+import { WhitelistPipe } from 'src/validation/whitelist.validation';
 import { TrackDto } from './dto/track.dto';
+import { TrackService } from './track.service';
 
 @Controller('track')
 export class TrackController {
@@ -25,11 +26,14 @@ export class TrackController {
     return this.service.getById(id);
   }
   @Post()
-  createTrack(@Body() body: TrackDto) {
+  createTrack(@Body(WhitelistPipe) body: TrackDto) {
     return this.service.create(body);
   }
   @Put(':id')
-  updateTrack(@Param('id', ParseUUIDPipe) id: IdDto, @Body() body: TrackDto) {
+  updateTrack(
+    @Param('id', ParseUUIDPipe) id: IdDto,
+    @Body(WhitelistPipe) body: TrackDto,
+  ) {
     return this.service.update(id, body);
   }
   @Delete(':id')

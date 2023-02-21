@@ -7,9 +7,9 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { WhitelistPipe } from 'src/validation/whitelist.validation';
 import { AuthEntity } from '../entity/auth.entity';
 import { SignUpService } from './signUp.service';
-// import { UserService } from './user.service';
 
 @Controller('auth')
 export class SignUpController {
@@ -24,7 +24,7 @@ export class SignUpController {
     }),
   )
   @HttpCode(201)
-  signUp(@Body() body: AuthEntity) {
+  signUp(@Body(WhitelistPipe) body: AuthEntity) {
     return this.service.signUp(body);
   }
 }

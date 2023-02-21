@@ -1,16 +1,17 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Param,
-  Put,
+  Controller,
   Delete,
-  ParseUUIDPipe,
+  Get,
   HttpCode,
+  Param,
+  ParseUUIDPipe,
+  Post,
+  Put,
 } from '@nestjs/common';
-import { AlbumService } from './album.service';
 import { IdDto } from 'src/dto/id.dto';
+import { WhitelistPipe } from 'src/validation/whitelist.validation';
+import { AlbumService } from './album.service';
 import { AlbumDto } from './dto/album.dto';
 
 @Controller('album')
@@ -25,11 +26,14 @@ export class AlbumController {
     return this.service.getById(id);
   }
   @Post()
-  createAlbum(@Body() body: AlbumDto) {
+  createAlbum(@Body(WhitelistPipe) body: AlbumDto) {
     return this.service.create(body);
   }
   @Put(':id')
-  updateAlbum(@Param('id', ParseUUIDPipe) id: IdDto, @Body() body: AlbumDto) {
+  updateAlbum(
+    @Param('id', ParseUUIDPipe) id: IdDto,
+    @Body(WhitelistPipe) body: AlbumDto,
+  ) {
     return this.service.update(id, body);
   }
   @Delete(':id')
