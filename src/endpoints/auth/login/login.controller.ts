@@ -1,7 +1,7 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { HttpCode } from '@nestjs/common/decorators';
 import { WhitelistPipe } from 'src/validation/whitelist.validation';
-import { AuthEntity } from '../../entity/auth.entity';
+import { AuthEntity } from '../entity/auth.entity';
 import { LoginService } from './login.service';
 
 @Controller('auth')
