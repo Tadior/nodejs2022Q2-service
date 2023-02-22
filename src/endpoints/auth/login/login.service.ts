@@ -39,7 +39,7 @@ export class LoginService {
     return tokens;
   }
 
-  private generateTokens(id: string, login: string) {
+  generateTokens(id: string, login: string) {
     const payload = { id, login };
     const accessToken = jwt.sign(payload, process.env.JWT_SECRET_KEY, {
       expiresIn: '1h',
@@ -54,7 +54,7 @@ export class LoginService {
     };
   }
 
-  private async saveToken(id: string, refreshToken: string) {
+  async saveToken(id: string, refreshToken: string) {
     const token = await this.authRepository.findOneBy({ id });
 
     if (token) {

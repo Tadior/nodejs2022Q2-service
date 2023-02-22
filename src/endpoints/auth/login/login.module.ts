@@ -10,5 +10,6 @@ import { LoginService } from './login.service';
   imports: [TypeOrmModule.forFeature([AuthEntity]), UserModule, AuthDbModule],
   providers: [LoginService],
   controllers: [LoginController],
+  exports: [LoginService, LoginModule],
 })
 export class LoginModule {}

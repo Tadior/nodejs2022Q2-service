@@ -1,9 +1,9 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   HttpCode,
   Post,
-  UnauthorizedException,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -19,7 +19,7 @@ export class SignUpController {
   @UsePipes(
     new ValidationPipe({
       exceptionFactory: () => {
-        return new UnauthorizedException();
+        return new BadRequestException();
       },
     }),
   )
