@@ -7,6 +7,8 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { UseGuards } from '@nestjs/common/decorators';
+import { jwtGuard } from 'src/guards/jwt.guard';
 import { WhitelistPipe } from 'src/validation/whitelist.validation';
 import { RefreshEntity } from './entity/refresh.entity';
 import { RefreshService } from './refresh.service';
@@ -15,6 +17,7 @@ import { RefreshService } from './refresh.service';
 export class RefreshController {
   constructor(private readonly service: RefreshService) {}
   @Post('refresh')
+  @UseGuards(jwtGuard)
   @HttpCode(200)
   @UsePipes(
     new ValidationPipe({
