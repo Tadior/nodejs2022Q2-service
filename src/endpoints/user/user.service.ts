@@ -12,15 +12,19 @@ import { makeUserResponse } from './helpers/makeUserResponse';
 export class UserService {
   constructor(
     @InjectRepository(UserEntity)
-    private usersRepository: Repository<UserEntity>,
-  ) {}
+    private usersRepository: Repository<UserEntity>, // private myLogger: CustomLogger,
+  ) {
+    // this.myLogger.setContext('CatsService');
+    // this.usersRepository;
+  }
 
   async getAllUsers(): Promise<UserResponse[]> {
     const users = await this.usersRepository.find();
-
-    return users.map((user) => {
+    const out = users.map((user) => {
       return makeUserResponse(user);
     });
+    // this.myLogger.customLog(out);
+    return out;
   }
 
   async getUserById(@Param() idDto: IdDto): Promise<UserResponse> {
