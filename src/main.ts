@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import * as dotenv from 'dotenv';
 import { AppModule } from './app.module';
+import { ExceptionFilter } from './exceptionFilter/exception.filter';
 import { CustomLogger } from './logger/customLogger.service';
 // import { logger } from './logger/logger.middleware';
 
@@ -12,6 +13,7 @@ async function bootstrap() {
     bufferLogs: true,
   });
   app.useLogger(new CustomLogger());
+  app.useGlobalFilters(new ExceptionFilter());
   // app.use(new LoggerMiddleware(new CustomLogger()));
   await app.listen(port);
 }
