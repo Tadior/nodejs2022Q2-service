@@ -3,7 +3,6 @@ import * as dotenv from 'dotenv';
 import { AppModule } from './app.module';
 import { ExceptionFilter } from './exceptionFilter/exception.filter';
 import { CustomLogger } from './logger/customLogger.service';
-// import { logger } from './logger/logger.middleware';
 
 dotenv.config();
 const port = process.env.PORT ? process.env.PORT : 4000;
@@ -14,7 +13,6 @@ async function bootstrap() {
   });
   app.useLogger(new CustomLogger());
   app.useGlobalFilters(new ExceptionFilter());
-  // app.use(new LoggerMiddleware(new CustomLogger()));
   await app.listen(port);
 }
 bootstrap();

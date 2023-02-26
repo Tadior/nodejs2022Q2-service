@@ -19,8 +19,6 @@ import { LoggerMiddleware } from './logger/logger.middleware';
     AlbumModule,
     FavoriteModule,
     AuthModule,
-    // LoggerMiddleware,
-    // CustomLogger,
     LoggerModule,
   ],
 })

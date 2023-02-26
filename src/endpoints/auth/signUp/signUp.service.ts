@@ -20,19 +20,15 @@ export class SignUpService {
     const { login, password } = authDto;
     const user = await this.userRepository.findOneBy({ login });
     const salt = Number(process.env.CRYPT_SALT);
-    // if (user) {
-    //   throw new HttpException(
-    //     'This login is already used',
-    //     HttpStatus.CONFLICT,
-    //   );
-    // }
     const hashedPassword = bcrypt.hashSync(password, salt);
     const newUser: User = {
       login,
       password: hashedPassword,
       version: 1,
     };
+
     await this.userRepository.save(newUser);
-    return `User ${login} was created`;
+
+    return { id: newUser.id };
   }
 }

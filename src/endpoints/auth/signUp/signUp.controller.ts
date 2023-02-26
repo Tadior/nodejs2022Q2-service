@@ -15,7 +15,7 @@ import { SignUpService } from './signUp.service';
 export class SignUpController {
   constructor(private readonly service: SignUpService) {}
 
-  @Post('signUp')
+  @Post('signup')
   @UsePipes(
     new ValidationPipe({
       exceptionFactory: () => {

@@ -21,5 +21,5 @@ npm run docker
 Start tests
 
 ```sh
-npm run test
+npm run test:auth
 ```
